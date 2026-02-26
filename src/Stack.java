@@ -8,6 +8,11 @@ public class Stack {
         top = -1;
     }
 
+    @Override
+    public String toString() {
+        return "[" + elements + "]";
+    }
+
     public void push(int elemento){
         //TODO: Precisa de alguma exceção?
         top++;
@@ -16,14 +21,18 @@ public class Stack {
 
     public int pop(){
         if(isEmpty()) return -1;//ajustar isso dps
-        int removedElement = elements.getData();
+        int removedElement = elements.prox.data; //add get
+
+        elements.prox = elements.prox.prox; //remove aqui
+
         top --;
 
         return removedElement;
     }
 
     public int peek(){
-      return 0;
+        if(isEmpty()) return -1;
+        return elements.prox.data;
     }
 
     public boolean isEmpty(){

@@ -17,12 +17,7 @@ public class LinkedRec {
 
     //addFirst para facilitar na pilha
     public void add(int value) {
-        if (this.prox == null) {
-            this.prox = new LinkedRec(value);
-        }
-        else {
-            this.prox.addIndex(value,0);
-        }
+            addIndex(value,0);
     }
 
     public void addIndex(int value, int index) {
@@ -32,10 +27,8 @@ public class LinkedRec {
         }
 
         if (index == 0) {
-            LinkedRec novo = new LinkedRec(this.data);
+            LinkedRec novo = new LinkedRec(value);
             novo.prox = this.prox;
-
-            this.data = value;
             this.prox = novo;
         }
         else {
