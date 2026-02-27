@@ -1,3 +1,4 @@
+package model;
 
 public class LinkedList {
    private Node head;

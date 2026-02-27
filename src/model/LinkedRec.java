@@ -1,3 +1,5 @@
+package model;
+
 public class LinkedRec {
 
     protected int data;
@@ -20,10 +22,15 @@ public class LinkedRec {
             addIndex(value,0);
     }
 
+    // facilitar o funcionamento da fila
+    public void addLast(int value){
+       addIndex(value, size());
+    }
+
     public void addIndex(int value, int index) {
 
         if (index < 0) {
-            return; // índice inválido → não faz nada
+            return; // índice inválido:  não faz nada
         }
 
         if (index == 0) {

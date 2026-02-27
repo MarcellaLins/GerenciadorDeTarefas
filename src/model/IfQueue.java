@@ -1,3 +1,5 @@
+package model;
+
 public interface IfQueue {
     void enqueue(int data);
     int dequeue();

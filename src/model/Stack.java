@@ -1,7 +1,8 @@
-public class Stack {
+package model;
+
+public class Stack implements IfStack{
     protected LinkedRec elements;
     protected int top;
-
 
     public Stack(){
         elements = new LinkedRec();
@@ -19,13 +20,13 @@ public class Stack {
         elements.add(elemento);
     }
 
-    public int pop(){
+    public int pop(){ //não está retornando
         if(isEmpty()) return -1;//ajustar isso dps
         int removedElement = elements.prox.data; //add get
 
         elements.prox = elements.prox.prox; //remove aqui
 
-        top --;
+        top--;
 
         return removedElement;
     }
@@ -36,11 +37,11 @@ public class Stack {
     }
 
     public boolean isEmpty(){
-        return false;
+        return (top == -1);
     }
 
     public int size(){
-        return 0;
+        return elements.size();
     }
 
 
