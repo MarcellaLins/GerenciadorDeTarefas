@@ -32,15 +32,15 @@ public class Queue implements IfQueue{
 
     }
     public int dequeue(){
-        return 0;
+        return elements.pop();
     }
     public int size(){
-        return 0;
+        return elements.size();
     }
     public int head(){
-        return 0;
+        return elements.peek();
     }
     public boolean isEmpty(){
-        return false;
+        return elements.isEmpty();
     }
 }
