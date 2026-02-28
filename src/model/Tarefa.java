@@ -6,7 +6,9 @@ public class Tarefa {
 
     private String name;
     private String descricao;
-    private String categoria;
+    private Categoria categoria;
     private LocalDate prazo;
+
+
 
 }
