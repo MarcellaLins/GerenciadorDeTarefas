@@ -1,4 +1,4 @@
-package model;
+package estruturas;
 
 public class Node {
     protected int data;

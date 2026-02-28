@@ -1,4 +1,4 @@
-package model;
+package estruturas;
 
 public interface IfStack {
     void push(int value);

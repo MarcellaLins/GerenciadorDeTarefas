@@ -1,4 +1,5 @@
-package model;
+import estruturas.LinkedRec;
+import estruturas.Queue;
 
 public class Main {
     public static void main(String[] args){

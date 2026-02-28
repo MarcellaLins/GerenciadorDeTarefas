@@ -1,4 +1,4 @@
-package model;
+package estruturas;
 
 public class Stack implements IfStack{
     protected LinkedRec elements;

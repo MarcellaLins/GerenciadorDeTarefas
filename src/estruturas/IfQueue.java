@@ -1,4 +1,4 @@
-package model;
+package estruturas;
 
 public interface IfQueue {
     void enqueue(int data);
