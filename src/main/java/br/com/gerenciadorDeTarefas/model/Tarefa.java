@@ -1,4 +1,4 @@
-package model;
+package main.java.br.com.gerenciadorDeTarefas.model;
 
 import java.time.LocalDate;
 

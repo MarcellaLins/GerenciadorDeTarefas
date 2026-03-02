@@ -1,5 +1,7 @@
-import estruturas.LinkedRec;
-import estruturas.Queue;
+package main;
+
+import main.java.br.com.gerenciadorDeTarefas.structures.LinkedRec;
+import main.java.br.com.gerenciadorDeTarefas.structures.Queue;
 
 public class Main {
     public static void main(String[] args){
@@ -7,7 +9,7 @@ public class Main {
         LinkedRec lista = new LinkedRec();
 
         for (int i = 0; i< 10; i++){
-            lista.addLast(i);
+            lista.add(i);
         }
 
 
@@ -21,6 +23,8 @@ public class Main {
         }
 
         System.out.println(fila);
+        System.out.println(fila.dequeue());
+        System.out.println(fila.size());
 
 
 

@@ -1,4 +1,4 @@
-package estruturas;
+package main.java.br.com.gerenciadorDeTarefas.structures;
 
 public class Queue implements IfQueue{
 

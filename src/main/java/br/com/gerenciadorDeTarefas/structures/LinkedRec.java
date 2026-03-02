@@ -1,4 +1,4 @@
-package estruturas;
+package main.java.br.com.gerenciadorDeTarefas.structures;
 
 public class LinkedRec {
 
@@ -37,8 +37,7 @@ public class LinkedRec {
             LinkedRec novo = new LinkedRec(value);
             novo.prox = this.prox;
             this.prox = novo;
-        }
-        else {
+        } else {
             if (this.prox != null) {
                 this.prox.addIndex(value, index - 1);
             }
@@ -60,9 +59,9 @@ public class LinkedRec {
         if (this.prox == null) return;
         if (this.prox.data == value) {
             this.prox = this.prox.prox;
+        } else {
+            this.prox.remove(value);
         }
-        else {
-            this.prox.remove(value); }
     }
 
     public int size(){

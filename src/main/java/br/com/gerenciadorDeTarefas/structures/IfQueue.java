@@ -1,4 +1,4 @@
-package estruturas;
+package main.java.br.com.gerenciadorDeTarefas.structures;
 
 public interface IfQueue {
     void enqueue(int data);
