@@ -46,12 +46,10 @@ public class LinkedRec {
 
 
     public boolean research(int value) {
-        if (this.data == value) {
-            return true;
-        }
-        if (this.prox == null) {
-            return false;
-        }
+        if (this.prox == null) return false;
+
+        if (this.prox.data == value) return true;
+
         return this.prox.research(value);
     }
 
