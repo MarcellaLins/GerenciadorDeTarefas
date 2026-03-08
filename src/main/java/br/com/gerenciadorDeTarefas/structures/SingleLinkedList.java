@@ -16,33 +16,6 @@ public class SingleLinkedList <T extends Comparable<T>> {
    private Node<T> head;
     private int size;
 
-    public T getHead(){
-        if(isEmpty()){
-            return null;
-        }
-
-        return head.data;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-
-        Node<T> current = head;
-
-        while(current != null){
-            sb.append(current.data);
-            if (current.next != null){
-                sb.append(", ");
-            }
-
-            current = current.next;
-        }
-        sb.append("]");
-        return sb.toString();
-    }
-
     // inserção no início O(1)
     public void addFirst(T data){
         Node<T> newNode = new Node<>(data);
@@ -72,20 +45,87 @@ public class SingleLinkedList <T extends Comparable<T>> {
         size++;
    }
 
-   public void remove(int elemento){
+    // busca O(n)
+    public boolean search(T data) {
 
-   }
+        Node<T> current = head;
 
-   public void research(int elemento){
+        while (current != null) {
 
-   }
+            if (current.data.equals(data)) {
+                return true;
+            }
 
-   public int size(){
-        return 0;
-   }
+            current = current.next;
+        }
+
+        return false;
+    }
+
+    // remoção O(n)
+    public boolean remove(T data) {
+
+        if (head == null) {
+            return false;
+        }
+
+        // remover primeiro
+        if (head.data.equals(data)) {
+            head = head.next;
+            size--;
+            return true;
+        }
+
+        Node<T> current = head;
+
+        while (current.next != null) {
+
+            if (current.next.data.equals(data)) {
+
+                current.next = current.next.next;
+                size--;
+
+                return true;
+            }
+
+            current = current.next;
+        }
+
+        return false;
+    }
+
+    public int size() {
+        return size;
+    }
 
    public boolean isEmpty(){
-        return false;
+        return size==0;
    }
 
+    public T getHead(){
+        if(isEmpty()){
+            return null;
+        }
+
+        return head.data;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        Node<T> current = head;
+
+        while(current != null){
+            sb.append(current.data);
+            if (current.next != null){
+                sb.append(", ");
+            }
+
+            current = current.next;
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }
