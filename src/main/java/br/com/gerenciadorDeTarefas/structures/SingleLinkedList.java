@@ -43,19 +43,33 @@ public class SingleLinkedList <T extends Comparable<T>> {
         return sb.toString();
     }
 
-    public void add(int elemento){
-       Node newNode = new Node(elemento);
-       if (head == null){
-           head = newNode;
-           return;
-       }
-       Node current = head;
-       while (current.next != null) {
-           current = current.next;
-       }
-       current.next = newNode;
+    // inserção no início O(1)
+    public void addFirst(T data){
+        Node<T> newNode = new Node<>(data);
 
+        newNode.next = head;
+        head = newNode;
 
+        size++;
+   }
+
+   // inserção no início O(n)
+   public void addLast(T data){
+        Node<T> newNode = new Node<>(data);
+
+        if(head == null){
+            head = newNode;
+        } else{
+            Node<T> current = head;
+
+            while(current.next != null){
+                current = current.next;
+            }
+
+            current.next = newNode;
+        }
+
+        size++;
    }
 
    public void remove(int elemento){
