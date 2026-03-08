@@ -1,24 +1,45 @@
 package main.java.br.com.gerenciadorDeTarefas.structures;
 
-public class LinkedList {
-   private Node head;
+public class SingleLinkedList <T extends Comparable<T>> {
 
-   public LinkedList(){
-        head = null;
-   }
-    //melhorar esse toString
-    @Override
-    public String toString() {
-        if (head == null) return "[]";
+    // class Node integrada
+    private static class Node<T> {
+        T data;
+        Node<T> next;
 
-        StringBuilder sb = new StringBuilder();
-        Node current = head;
-
-        while (current != null) {
-            sb.append(current.data).append(",");
-            current = current.next;
+        Node(T data){
+            this.data = data;
         }
 
+    }
+
+   private Node<T> head;
+    private int size;
+
+    public T getHead(){
+        if(isEmpty()){
+            return null;
+        }
+
+        return head.data;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        Node<T> current = head;
+
+        while(current != null){
+            sb.append(current.data);
+            if (current.next != null){
+                sb.append(", ");
+            }
+
+            current = current.next;
+        }
+        sb.append("]");
         return sb.toString();
     }
 
@@ -53,7 +74,4 @@ public class LinkedList {
         return false;
    }
 
-   public int getHead(){
-       return head.data;
-   }
 }
