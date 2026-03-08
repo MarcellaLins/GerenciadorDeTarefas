@@ -1,10 +1,10 @@
 package main.java.br.com.gerenciadorDeTarefas.structures;
 
-public interface IfQueue {
-    void enqueue(int data);
-    int dequeue();
+public interface IfQueue<T> {
+    void enqueue(T data);
+    T dequeue();
     int size();
-    int head();
+    T head();
     boolean isEmpty();
 
 }

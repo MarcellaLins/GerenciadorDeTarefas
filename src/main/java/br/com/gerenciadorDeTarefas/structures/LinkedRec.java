@@ -1,40 +1,41 @@
 package main.java.br.com.gerenciadorDeTarefas.structures;
 
-public class LinkedRec {
+public class LinkedRec<T extends Comparable<T>> {
 
-    protected int data;
-    protected LinkedRec prox;
-    public LinkedRec () {
+    protected T data;
+    protected LinkedRec<T> prox;
+
+    public LinkedRec() {
         this.prox = null;
     }
 
-    public LinkedRec(int data) {
+    public LinkedRec(T data) {
         this.data = data;
         this.prox = null;
     }
 
-    public int getData() {
+    public T getData() {
         return data;
     }
 
-    //addFirst para facilitar na pilha
-    public void add(int value) {
-            addIndex(value,0);
+    // addFirst para facilitar na pilha
+    public void add(T value) {
+        addIndex(value, 0);
     }
 
     // facilitar o funcionamento da fila
-    public void addLast(int value){
-       addIndex(value, size());
+    public void addLast(T value) {
+        addIndex(value, size());
     }
 
-    public void addIndex(int value, int index) {
+    public void addIndex(T value, int index) {
 
         if (index < 0) {
-            return; // índice inválido:  não faz nada
+            return; // índice inválido: não faz nada
         }
 
         if (index == 0) {
-            LinkedRec novo = new LinkedRec(value);
+            LinkedRec<T> novo = new LinkedRec<>(value);
             novo.prox = this.prox;
             this.prox = novo;
         } else {
@@ -44,25 +45,25 @@ public class LinkedRec {
         }
     }
 
-
-    public boolean research(int value) {
+    public boolean research(T value) {
         if (this.prox == null) return false;
 
-        if (this.prox.data == value) return true;
+        if (this.prox.data.compareTo(value) == 0) return true;
 
         return this.prox.research(value);
     }
 
-    public void remove(int value){
+    public void remove(T value) {
         if (this.prox == null) return;
-        if (this.prox.data == value) {
+
+        if (this.prox.data.compareTo(value) == 0) {
             this.prox = this.prox.prox;
         } else {
             this.prox.remove(value);
         }
     }
 
-    public int size(){
+    public int size() {
         if (isEmpty()) return 0;
         return 1 + this.prox.size();
     }

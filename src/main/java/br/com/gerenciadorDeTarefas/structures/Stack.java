@@ -1,11 +1,12 @@
 package main.java.br.com.gerenciadorDeTarefas.structures;
 
-public class Stack implements IfStack{
-    protected LinkedRec elements;
+public class Stack<T extends Comparable<T>> implements IfStack<T> {
+
+    protected LinkedRec<T> elements;
     protected int top;
 
     public Stack(){
-        elements = new LinkedRec();
+        elements = new LinkedRec<>();
         top = -1;
     }
 
@@ -14,25 +15,26 @@ public class Stack implements IfStack{
         return "[" + elements + "]";
     }
 
-    public void push(int elemento){
+    public void push(T elemento){
         //TODO: Precisa de alguma exceção?
         top++;
         elements.add(elemento);
     }
 
-    public int pop(){ //não está retornando
-        if(isEmpty()) return -1;//ajustar isso dps
-        int removedElement = elements.prox.data; //add get
+    public T pop(){
+        if(isEmpty()) return null;
 
-        elements.prox = elements.prox.prox; //remove aqui
+        T removedElement = elements.prox.data;
+
+        elements.prox = elements.prox.prox;
 
         top--;
 
         return removedElement;
     }
 
-    public int peek(){
-        if(isEmpty()) return -1;
+    public T peek(){
+        if(isEmpty()) return null;
         return elements.prox.data;
     }
 
@@ -43,7 +45,4 @@ public class Stack implements IfStack{
     public int size(){
         return elements.size();
     }
-
-
-
 }
