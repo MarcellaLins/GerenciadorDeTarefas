@@ -71,7 +71,7 @@ public class LinkedListTest {
         list.add(25);
 
         assertTrue(list.research(15));
-        assertFalse(list.research(100));
+        assertFalse(list.research(0));
     }
 
     @Test
