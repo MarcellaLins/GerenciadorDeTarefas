@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListTest {
 
-    private LinkedRec list; // private LinkedRec<Integer> list;
+    private LinkedRec<Integer> list;
 
     @BeforeEach
     void setUp() {
-        list = new LinkedRec(); // list = new LinkedRec<>();
+        list = new LinkedRec<>();
     }
 
     @Test

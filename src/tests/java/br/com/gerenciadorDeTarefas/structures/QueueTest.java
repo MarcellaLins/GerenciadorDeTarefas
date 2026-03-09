@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QueueTest {
-    private Queue queue; // private Queue<Integer> queue;
+    private Queue<Integer> queue;
 
     @BeforeEach
     void setUp() {
-        queue = new Queue(); // queue = new Queue<>();
+        queue = new Queue<>();
     }
 
     @Test

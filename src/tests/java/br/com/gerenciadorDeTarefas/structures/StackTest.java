@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StackTest {
-    private Stack stack; // private Stack<Integer> stack;
+    private Stack<Integer> stack;
 
     @BeforeEach
     void setUp() {
-        stack = new Stack(); // stack = new Stack<>();
+        stack = new Stack<>();
     }
 
     @Test
