@@ -2,48 +2,44 @@ package main.java.br.com.gerenciadorDeTarefas.structures;
 
 public class Queue<T extends Comparable<T>> implements IfQueue<T>{
 
-    protected Stack<T> elements;
-    protected int head;
-    protected int tail;
+    protected Stack<T> stack1;
+    protected Stack<T> stack2;
 
     public Queue(){
-        elements = new Stack<>();
-        head = -1;
-        tail = -1;
+        stack1 = new Stack<>();
+        stack2 = new Stack<>();
     }
 
     @Override
     public String toString() {
-        return elements.toString();
+        return stack1.toString();
     }
 
     public void enqueue(T data){
-        Stack<T> aux = new Stack<>();
-
-        while(!elements.isEmpty()){
-            aux.push(elements.pop());
+        while(!stack1.isEmpty()){
+            stack2.push(stack1.pop());
         }
 
-        aux.push(data);
+        stack2.push(data);
 
-        while(!aux.isEmpty()){
-            elements.push(aux.pop());
+        while(!stack2.isEmpty()){
+            stack1.push(stack2.pop());
         }
     }
 
     public T dequeue(){
-        return elements.pop();
+        return stack1.pop();
     }
 
     public int size(){
-        return elements.size();
+        return stack1.size();
     }
 
     public T head(){
-        return elements.peek();
+        return stack1.peek();
     }
 
     public boolean isEmpty(){
-        return elements.isEmpty();
+        return stack1.isEmpty();
     }
 }
