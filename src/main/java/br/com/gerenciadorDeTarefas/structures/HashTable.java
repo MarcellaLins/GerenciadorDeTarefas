@@ -19,7 +19,10 @@ public class HashTable<T extends Comparable <T>> {
 
     public void insert(T key){
         int index = hash(key);
-        table[index].addFirst(key);
+
+        if(!table[index].search(key)){
+            table[index].addFirst(key);
+        }
     }
 
     public boolean search(T key){
