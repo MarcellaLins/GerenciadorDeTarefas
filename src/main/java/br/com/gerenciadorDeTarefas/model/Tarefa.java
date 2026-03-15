@@ -89,4 +89,10 @@ public class Tarefa {
         this.category = category;
     }
 
+    // HASH CODE
+
+    public int hashCode(){
+        return category.getCodigo();
+    }
+
 }

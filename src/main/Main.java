@@ -48,7 +48,6 @@ public class Main {
 
         System.out.println(t1.getId());
         System.out.println(t2.getId());
-        System.out.println(t2.isOverdue());
-
+        System.out.println("O hash é: " + t2.hashCode());
     }
 }
