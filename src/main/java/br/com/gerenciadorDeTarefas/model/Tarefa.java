@@ -89,6 +89,24 @@ public class Tarefa {
         this.category = category;
     }
 
+    // EQUALS
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Tarefa other = (Tarefa) obj;
+
+        return this.id == other.id;
+    }
+
     // HASH CODE
 
     public int hashCode(){
