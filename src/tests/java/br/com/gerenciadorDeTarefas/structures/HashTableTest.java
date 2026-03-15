@@ -69,4 +69,65 @@ public class HashTableTest {
 
         assertTrue(result.contains("5"));
     }
+
+    @Test
+    @DisplayName("Should handle collision and still find both elements")
+    void shouldHandleCollision() {
+
+        hashTable.insert(1);
+        hashTable.insert(7); // mesma posição se capacity = 6
+
+        assertTrue(hashTable.search(1));
+        assertTrue(hashTable.search(7));
+    }
+
+    @Test
+    @DisplayName("Should remove element from collision chain without affecting others")
+    void shouldRemoveElementFromCollisionChain() {
+
+        hashTable.insert(1);
+        hashTable.insert(7);
+
+        hashTable.remove(1);
+
+        assertFalse(hashTable.search(1));
+        assertTrue(hashTable.search(7));
+    }
+
+    @Test
+    @DisplayName("Should return false when removing non-existing element")
+    void shouldReturnFalseWhenRemovingNonExistingElement() {
+
+        boolean removed = hashTable.remove(100);
+
+        assertFalse(removed);
+    }
+
+    @Test
+    @DisplayName("Should handle multiple insertions")
+    void shouldHandleMultipleInsertions() {
+
+        hashTable.insert(1);
+        hashTable.insert(2);
+        hashTable.insert(3);
+        hashTable.insert(4);
+        hashTable.insert(5);
+
+        assertTrue(hashTable.search(1));
+        assertTrue(hashTable.search(2));
+        assertTrue(hashTable.search(3));
+        assertTrue(hashTable.search(4));
+        assertTrue(hashTable.search(5));
+    }
+
+    @Test
+    @DisplayName("Should allow duplicate insertions")
+    void shouldAllowDuplicateInsertions() {
+
+        hashTable.insert(10);
+        hashTable.insert(10);
+
+        assertTrue(hashTable.search(10));
+    }
+
 }
