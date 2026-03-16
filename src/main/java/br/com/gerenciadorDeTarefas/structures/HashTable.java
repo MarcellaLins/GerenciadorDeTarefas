@@ -1,6 +1,6 @@
 package main.java.br.com.gerenciadorDeTarefas.structures;
 
-public class HashTable<T extends Comparable <T>> {
+public class HashTable <T> {
     private int capacity;
     private SingleLinkedList<T>[] table;
 
@@ -9,7 +9,7 @@ public class HashTable<T extends Comparable <T>> {
         table = new SingleLinkedList[capacity];
 
         for (int i = 0; i < capacity; i++){
-            table[i] = new SingleLinkedList<>();
+            table[i] = new SingleLinkedList();
         }
     }
 
