@@ -1,6 +1,6 @@
 package main.java.br.com.gerenciadorDeTarefas.structures;
 
-public class SingleLinkedList <T extends Comparable<T>> {
+public class SingleLinkedList <T> {
 
     // class Node integrada
     private static class Node<T> {

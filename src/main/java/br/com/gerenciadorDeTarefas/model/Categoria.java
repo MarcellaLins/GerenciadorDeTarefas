@@ -1,12 +1,12 @@
 package main.java.br.com.gerenciadorDeTarefas.model;
 
 public enum Categoria {
-    ESTUDOS(1),
-    TRABALHO(2),
-    CASA(3),
-    FINANCAS(4),
-    SAUDE(5),
-    PESSOAL(6);
+    ESTUDOS(0),
+    TRABALHO(1),
+    CASA(2),
+    FINANCAS(3),
+    SAUDE(4),
+    PESSOAL(5);
 
     private final int codigo;
 

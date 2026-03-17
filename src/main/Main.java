@@ -6,6 +6,7 @@ import main.java.br.com.gerenciadorDeTarefas.structures.LinkedRec;
 import main.java.br.com.gerenciadorDeTarefas.structures.Queue;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args){
@@ -36,19 +37,19 @@ public class Main {
                 "Estudar Tabela Hash",
                 "Revisar e implementar métodos de forma iterativa",
                 Categoria.ESTUDOS,
-                LocalDate.of(2026, 3, 10)
+                // LocalDateTime.of(int year, int month, int dayOfMonth, int hour, int minute)
+                LocalDateTime.of(2026, 3, 10, 14, 0)
         );
 
         Tarefa t2 = new Tarefa(
                 "Estudar Tabela Hash",
                 "Revisar e implementar métodos de forma iterativa",
                 Categoria.ESTUDOS,
-                LocalDate.of(2026, 3, 7)
+                LocalDateTime.of(2026, 3, 7, 9, 30)
         );
 
         System.out.println(t1.getId());
         System.out.println(t2.getId());
-        System.out.println(t2.isOverdue());
-
+        System.out.println("O hash é: " + t2.hashCode());
     }
 }
