@@ -1,8 +1,8 @@
 package main.java.br.com.gerenciadorDeTarefas.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Tarefa {
+public class Tarefa implements Comparable<Tarefa> {
 
     private static int contadorID = 1;
 
@@ -10,15 +10,17 @@ public class Tarefa {
     private String title;
     private String description;
     private Categoria category;
-    private LocalDate deadline;
+    private LocalDateTime creationDate;
+    private LocalDateTime deadline;
     private boolean completed;
 
-    public Tarefa(String title, String description, Categoria category, LocalDate deadline ) {
+    public Tarefa(String title, String description, Categoria category, LocalDateTime deadline ) {
         this.id = contadorID++;
-        this.category = category;
-        this.deadline = deadline;
-        this.description = description;
         this.title = title;
+        this.description = description;
+        this.category = category;
+        this.creationDate = LocalDateTime.now();
+        this.deadline = deadline;
         this.completed = false;
     }
 
@@ -48,7 +50,7 @@ public class Tarefa {
     */
 
     public boolean isOverdue(){
-        return !completed && deadline != null && deadline.isBefore(LocalDate.now());
+        return !completed && deadline != null && deadline.isBefore(LocalDateTime.now());
     }
 
     //GETTERS E SETTERS
@@ -73,11 +75,19 @@ public class Tarefa {
         this.description = description;
     }
 
-    public LocalDate getDeadline() {
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -89,8 +99,44 @@ public class Tarefa {
         this.category = category;
     }
 
-    // EQUALS
+    // TO STRING
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                "\nTítulo: " + title +
+                "\nDescrição: " + description +
+                "\nCategoria: " + category +
+                "\nCriada em: " + creationDate +
+                "\nPrazo: " + deadline +
+                "\nConcluída: " + completed;
+    }
 
+    // COMPARE TO
+    @Override
+    public int compareTo(Tarefa other) {
+
+        if (this.deadline == null && other.deadline == null) {
+            return Integer.compare(this.id, other.id);
+        }
+
+        if (this.deadline == null) {
+            return 1;
+        }
+
+        if (other.deadline == null) {
+            return -1;
+        }
+
+        int result = this.deadline.compareTo(other.deadline);
+
+        if (result != 0) {
+            return result;
+        }
+
+        return Integer.compare(this.id, other.id);
+    }
+
+    // EQUALS
     @Override
     public boolean equals(Object obj) {
 
@@ -108,7 +154,6 @@ public class Tarefa {
     }
 
     // HASH CODE
-
     public int hashCode(){
         return category.getCodigo();
     }

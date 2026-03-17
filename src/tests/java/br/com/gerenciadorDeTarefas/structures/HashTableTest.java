@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -144,7 +145,7 @@ public class HashTableTest {
                 "Estudar ED",
                 "Revisar HashTable",
                 Categoria.ESTUDOS,
-                LocalDate.now().plusDays(2)
+                LocalDateTime.now().plusDays(2)
         );
 
         tarefaHashTable.insert(tarefa);
@@ -160,14 +161,14 @@ public class HashTableTest {
                 "Estudar ED",
                 "Lista de exercícios",
                 Categoria.ESTUDOS,
-                LocalDate.now().plusDays(2)
+                LocalDateTime.now().plusDays(2)
         );
 
         Tarefa t2 = new Tarefa(
                 "Revisar provas antigas",
                 "Praticar BST",
                 Categoria.ESTUDOS,
-                LocalDate.now().plusDays(3)
+                LocalDateTime.now().plusDays(3)
         );
 
         tarefaHashTable.insert(t1);
@@ -185,7 +186,7 @@ public class HashTableTest {
                 "Estudar Hash",
                 "Implementar testes",
                 Categoria.ESTUDOS,
-                LocalDate.now().plusDays(1)
+                LocalDateTime.now().plusDays(1)
         );
 
         tarefaHashTable.insert(tarefa);
@@ -203,14 +204,14 @@ public class HashTableTest {
                 "Estudar ED",
                 "Lista 1",
                 Categoria.ESTUDOS,
-                LocalDate.now().plusDays(2)
+                LocalDateTime.now().plusDays(2)
         );
 
         Tarefa t2 = new Tarefa(
                 "Estudar Grafos",
                 "Lista 2",
                 Categoria.ESTUDOS,
-                LocalDate.now().plusDays(3)
+                LocalDateTime.now().plusDays(3)
         );
 
         tarefaHashTable.insert(t1);
@@ -230,7 +231,7 @@ public class HashTableTest {
                 "Treinar academia",
                 "Cardio",
                 Categoria.SAUDE,
-                LocalDate.now().plusDays(1)
+                LocalDateTime.now().plusDays(1)
         );
 
         assertFalse(tarefaHashTable.search(tarefa));
