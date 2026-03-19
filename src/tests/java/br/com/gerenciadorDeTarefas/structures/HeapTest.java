@@ -5,7 +5,6 @@ import main.java.br.com.gerenciadorDeTarefas.structures.MaxHeap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,7 +63,6 @@ public class HeapTest {
 
     @Test
     void testOrderDescending() {
-
         for (int n : Arrays.asList(1, 2, 3, 4, 5)) {
             heap.insert(n);
         }
@@ -78,7 +76,6 @@ public class HeapTest {
 
     @Test
     void testReverseInput() {
-
         for (int n : Arrays.asList(5, 4, 3, 2, 1)) {
             heap.insert(n);
         }
@@ -92,7 +89,6 @@ public class HeapTest {
 
     @Test
     void testWithDuplicates() {
-
         for (int n : Arrays.asList(3, 1, 4, 1, 5, 9, 2, 6, 5, 3)) {
             heap.insert(n);
         }
@@ -119,8 +115,7 @@ public class HeapTest {
 
     @Test
     void constructorWithArrayInt() {
-        ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(9,61,6,59,60));
-        MaxHeap<Integer> builtHeap = new MaxHeap<>(arr);
+        MaxHeap<Integer> builtHeap = new MaxHeap<>(Arrays.asList(9,61,6,59,60));
 
         assertFalse(builtHeap.isEmpty());
         assertEquals(5, builtHeap.size());
@@ -129,8 +124,7 @@ public class HeapTest {
 
     @Test
     void constructorWithArrayStr() {
-        ArrayList<String> arr = new ArrayList<>(Arrays.asList("banana","maçã","chocolate"));
-        MaxHeap<String> builtHeap = new MaxHeap<>(arr);
+        MaxHeap<String> builtHeap = new MaxHeap<>(Arrays.asList("banana","maçã","chocolate"));
 
         assertFalse(builtHeap.isEmpty());
         assertEquals(3, builtHeap.size());

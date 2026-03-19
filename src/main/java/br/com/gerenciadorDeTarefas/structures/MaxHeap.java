@@ -1,6 +1,7 @@
 package main.java.br.com.gerenciadorDeTarefas.structures;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MaxHeap <T extends Comparable<T>> {
     private final ArrayList<T> elements;
@@ -11,9 +12,9 @@ public class MaxHeap <T extends Comparable<T>> {
         this.heapSize = 0;
     }
 
-    public MaxHeap(ArrayList<T> list) {
+    public MaxHeap(List<T> list) {
         this.elements = new ArrayList<>(list);
-        this.heapSize = list.size();
+        this.heapSize = elements.size();
         buildHeap();
     }
 
