@@ -11,8 +11,8 @@ public class MaxHeap <T extends Comparable<T>> {
         this.heapSize = 0;
     }
 
-    /*public MaxHeap(ArrayList<T> el) {
-        this.elements = buildHeap(el);
+    /*public MaxHeap(ArrayList<T> list) {
+        this.elements = buildHeap(list);
         this.heapSize = elements.size();
     }*/
 
@@ -29,10 +29,24 @@ public class MaxHeap <T extends Comparable<T>> {
         }
     }
 
+    public T remove() {
+        if (isEmpty()) throw new IllegalStateException("Heap underflow");
 
+        T max = max();
+
+        elements.set(0, elements.get(heapSize-1));
+
+        elements.remove(heapSize - 1);
+        heapSize--;
+
+        //heapify(0);
+
+        return max;
+    }
 
     public T max() {
-        return elements.getFirst();
+        if (isEmpty()) throw new IllegalStateException("Heap is empty");
+        return elements.get(0);
     }
 
     public int size()  {
@@ -42,6 +56,10 @@ public class MaxHeap <T extends Comparable<T>> {
     public boolean isEmpty() {
         return heapSize == 0;
     }
+
+    //private void heapify(int index) {}
+
+    //private ArrayList<T> buildHeap(ArrayList<T> list) {}
 
     private int parent(int i) {
         return (i - 1) / 2;
