@@ -3,7 +3,7 @@ package main.java.br.com.gerenciadorDeTarefas.structures;
 import java.util.ArrayList;
 
 public class MaxHeap <T extends Comparable<T>> {
-    private ArrayList<T> elements;
+    private final ArrayList<T> elements;
     private int heapSize;
 
     public MaxHeap() {
@@ -11,10 +11,11 @@ public class MaxHeap <T extends Comparable<T>> {
         this.heapSize = 0;
     }
 
-    /*public MaxHeap(ArrayList<T> list) {
-        this.elements = buildHeap(list);
-        this.heapSize = elements.size();
-    }*/
+    public MaxHeap(ArrayList<T> list) {
+        this.elements = new ArrayList<>(list);
+        this.heapSize = list.size();
+        buildHeap();
+    }
 
 
     public void insert(T element) {
@@ -39,7 +40,7 @@ public class MaxHeap <T extends Comparable<T>> {
         elements.remove(heapSize - 1);
         heapSize--;
 
-        //heapify(0);
+        heapify(0);
 
         return max;
     }
@@ -57,9 +58,28 @@ public class MaxHeap <T extends Comparable<T>> {
         return heapSize == 0;
     }
 
-    //private void heapify(int index) {}
+    private void heapify(int index) {
+        int largest = index;
+        int left = left(index);
+        int right = right(index);
 
-    //private ArrayList<T> buildHeap(ArrayList<T> list) {}
+        if(left < heapSize && elements.get(left).compareTo(elements.get(largest)) > 0){
+            largest = left;
+        }
+
+        if(right < heapSize && elements.get(right).compareTo(elements.get(largest)) > 0){
+            largest = right;
+        }
+
+        if(largest != index) {
+            swap(index, largest);
+            heapify(largest);
+        }
+    }
+
+    private void buildHeap() {
+        for(int i = (size() - 1) / 2; i >= 0; i--) heapify(i);
+    }
 
     private int parent(int i) {
         return (i - 1) / 2;
