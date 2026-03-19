@@ -1,5 +1,7 @@
 package main.java.br.com.gerenciadorDeTarefas.structures;
 
+import java.util.ArrayList;
+
 public class SingleLinkedList <T> {
 
     // class Node integrada
@@ -127,5 +129,18 @@ public class SingleLinkedList <T> {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    public ArrayList<T> toArrayList(){
+        ArrayList<T> list = new ArrayList<>(size);
+
+        Node<T> current = head;
+
+        while(current != null){
+            list.add(current.data);
+            current = current.next;
+        }
+
+        return list;
     }
 }
