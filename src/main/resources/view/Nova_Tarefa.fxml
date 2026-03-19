@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="gerenciadorDeTarefas.Nova_Tarefa">
+<VBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="br.com.gerenciadorDeTarefas.controller.Nova_Tarefa">
 
     <!-- título principal -->
     <Label style="-fx-font-size: 18px;" text="Nova tarefa" />
@@ -55,7 +55,7 @@
 
     <!-- Botão Adicionar -->
     <HBox alignment="CENTER" spacing="10">
-        <Button onAction="#adicionarTarefa" prefHeight="35" prefWidth="150" text="Adicionar" />
+        <Button onAction="#salvarTarefa" prefHeight="35" prefWidth="150" text="Adicionar" />
       <padding>
          <Insets bottom="30.0" top="30.0" />
       </padding>

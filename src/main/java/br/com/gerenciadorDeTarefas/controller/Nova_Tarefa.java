@@ -1,4 +1,4 @@
-package main.java.br.com.gerenciadorDeTarefas.controller;
+package br.com.gerenciadorDeTarefas.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import br.com.gerenciadorDeTarefas.model.Categoria;
+import br.com.gerenciadorDeTarefas.model.Tarefa;
+import br.com.gerenciadorDeTarefas.structures.AVL;
 
 import java.time.LocalDate;
 
@@ -36,14 +39,15 @@ public class Nova_Tarefa {
 
     }
 
+
     @FXML
     private void adicionarTarefa() {
 
-        String titulo = tituloField.getText();
-        String descricao;
+        String title = tituloField.getText();
+        String description;
         String categoria = categoriaCombo.getValue();
 
-        System.out.println("Tarefa adicionada: " + titulo);
+        System.out.println("Tarefa adicionada: " + title);
 
     }
 
@@ -88,19 +92,40 @@ public class Nova_Tarefa {
 
     @FXML
     private void salvarTarefa() {
-
         if (!validarCampos()) {
-            return; // PARA TUDO
+            return;
         }
 
-        String titulo = tituloField.getText();
-        String descricao;
+        String title = tituloField.getText();
+        String description = descricao.getText();
         LocalDate dia = prazoPicker.getValue();
-        //    String hora = campoHora.getText();
-        String tipo = categoriaCombo.getValue();
+        String categoriaStr = categoriaCombo.getValue();
 
-        //  Tela_InicioController.TarefaAVL(dia, titulo, tipo);
+        Categoria categoria = Categoria.valueOf(categoriaStr.toUpperCase());
+
+        // cria a tarefa
+        Tarefa nova = new Tarefa(title, description, categoria, dia.atStartOfDay());
+
+        // insere na AVL
+        Tela_Inicio.getArvore().insert(nova);
+
+        System.out.println("Tarefa adicionada: " + nova);
+
+        // volta para tela inicial
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Tela_Inicio.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) tituloField.getScene().getWindow();
+            Scene scene = new Scene(root, 500, 400);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
 
 
