@@ -3,19 +3,6 @@ package main.java.br.com.gerenciadorDeTarefas.structures;
 import java.util.ArrayList;
 
 public class HeapSort {
-    //remover esse:
-    public static <T extends Comparable<T>> void sort(MaxHeap<T> heap) {
-
-        MaxHeap<T> aux = new MaxHeap<>();
-
-        while (!heap.isEmpty()) {
-            aux.insert(heap.remove());
-        }
-
-        while (!aux.isEmpty()) {
-            heap.insert(aux.remove());
-        }
-    }
 
     public static <T extends Comparable<T>> void sort(ArrayList<T> list) {
         MaxHeap<T> heap = new MaxHeap<>(list);
