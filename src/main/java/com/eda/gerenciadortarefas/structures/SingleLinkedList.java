@@ -1,6 +1,8 @@
 package com.eda.gerenciadortarefas.structures;
 
-public class SingleLinkedList <T> {
+import java.util.Iterator;
+
+public class SingleLinkedList <T> implements Iterable<T>{
 
     // class Node integrada
     private static class Node<T> {
@@ -127,5 +129,24 @@ public class SingleLinkedList <T> {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    @Override
+    public Iterator<T> iterator(){
+        return new Iterator<T>(){
+            private Node<T> current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next(){
+                T data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
     }
 }

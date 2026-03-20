@@ -49,4 +49,8 @@ public class HashTable <T> {
 
         return sb.toString();
     }
+
+    public SingleLinkedList<T> getBucket(int index){
+        return table[index];
+    }
 }
