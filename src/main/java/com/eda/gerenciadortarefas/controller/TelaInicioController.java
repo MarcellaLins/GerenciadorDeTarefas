@@ -34,7 +34,9 @@ import java.util.Collection;
 public class TelaInicioController implements TaskService {
     private TarefaService tarefaService;
     private AVL<Tarefa> todasTarefas;
+
     private boolean initialized = false;
+    private Categoria categoriaAtual = null;
 
     @Override
     public void setService(TarefaService tarefaService){
@@ -120,7 +122,13 @@ public class TelaInicioController implements TaskService {
             check.setOnAction(e -> {
                 if (check.isSelected()) {
                     tarefaService.concluirTarefa(t);
-                    renderizarLista(todasTarefas.inOrder());
+
+                    if (categoriaAtual != null) {
+                        List<Tarefa> filtradas = tarefaService.filtrarPorCategoria(categoriaAtual);
+                        renderizarLista(filtradas);
+                    } else {
+                        renderizarLista(todasTarefas.inOrder());
+                    }
                 }
             });
         }
@@ -128,6 +136,7 @@ public class TelaInicioController implements TaskService {
 
     @FXML
     private void mostrarTodasTarefas() {
+        categoriaAtual = null;
         renderizarLista(todasTarefas.inOrder());
     }
 
@@ -136,9 +145,9 @@ public class TelaInicioController implements TaskService {
         MenuItem item = (MenuItem) event.getSource();
 
         String nomeCategoria = item.getText();
-        Categoria categoria = Categoria.valueOf(nomeCategoria.toUpperCase());
+        categoriaAtual = Categoria.valueOf(nomeCategoria.toUpperCase());
 
-        List<Tarefa> filtradas = tarefaService.filtrarPorCategoria(categoria);
+        List<Tarefa> filtradas = tarefaService.filtrarPorCategoria(categoriaAtual);
 
         renderizarLista(filtradas);
     }
