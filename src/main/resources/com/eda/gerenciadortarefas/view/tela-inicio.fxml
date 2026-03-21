@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.eda.gerenciadortarefas.controller.TelaInicioController"
@@ -27,12 +29,17 @@
 
             <Pane HBox.hgrow="ALWAYS"/>
 
-            <Button text="Filtrar"
-                    style="-fx-background-radius:10; -fx-font-weight:bold; -fx-background-color:#2d8cff; -fx-text-fill:white;">
-                <padding>
-                    <Insets bottom="6" left="15" right="15" top="6"/>
-                </padding>
-            </Button>
+            <MenuButton fx:id="aplicarFiltro" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-font-weight: bold; -fx-background-color: #2d8cff; -fx-text-fill: white;" text="Filtrar" textFill="WHITE">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="ESTUDOS" onAction="#mostrarPorCategoria"/>
+                    <MenuItem mnemonicParsing="false" text="TRABALHO" onAction="#mostrarPorCategoria"/>
+                    <MenuItem mnemonicParsing="false" text="CASA" onAction="#mostrarPorCategoria"/>
+                    <MenuItem mnemonicParsing="false" text="FINANCAS" onAction="#mostrarPorCategoria"/>
+                    <MenuItem mnemonicParsing="false" text="SAUDE" onAction="#mostrarPorCategoria"/>
+                    <MenuItem mnemonicParsing="false" text="PESSOAL" onAction="#mostrarPorCategoria"/>
+                    <MenuItem mnemonicParsing="false" text="MOSTRAR TUDO" onAction="#mostrarTodasTarefas"/>
+                </items>
+            </MenuButton>
 
             <Button text="Adicionar"
                     onAction="#abrirNovaTarefa"

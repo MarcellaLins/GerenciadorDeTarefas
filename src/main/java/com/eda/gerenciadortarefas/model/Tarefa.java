@@ -14,7 +14,7 @@ public class Tarefa implements Comparable<Tarefa> {
     private LocalDateTime deadline;
     private boolean completed;
 
-    public Tarefa(String title, String description, Categoria category, LocalDateTime deadline ) {
+    public Tarefa(String title, String description, Categoria category, LocalDateTime deadline) {
         this.id = contadorID++;
         this.title = title;
         this.description = description;

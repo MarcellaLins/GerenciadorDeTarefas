@@ -1,6 +1,8 @@
 package com.eda.gerenciadortarefas.controller;
 
+import com.eda.gerenciadortarefas.model.Categoria;
 import com.eda.gerenciadortarefas.service.TarefaService;
+import com.eda.gerenciadortarefas.utils.TaskService;
 import com.eda.gerenciadortarefas.utils.TrocaDeTela;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -9,9 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -28,8 +28,23 @@ import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Collection;
 
-public class TelaInicioController {
+public class TelaInicioController implements TaskService {
+    private TarefaService tarefaService;
+    private AVL<Tarefa> todasTarefas;
+    private boolean initialized = false;
+
+    @Override
+    public void setService(TarefaService tarefaService){
+        this.tarefaService = tarefaService;
+        this.todasTarefas = tarefaService.getTodasTarefas();
+
+        if (initialized) {
+            mostrarTodasTarefas();
+        }
+    }
 
     @FXML
     private Label title;
@@ -40,46 +55,38 @@ public class TelaInicioController {
     @FXML
     private Button btnConcluidos;
 
-    public static AVL<Tarefa> avl = new AVL<>();
-
-    public static AVL<Tarefa> getArvore() {
-        return avl;
-    }
-
     @FXML
     public void initialize() {
 
-        atualizarTela();
+        initialized = true;
+
+        taskList.getChildren().clear();
+
+        if (tarefaService != null) {
+            mostrarTodasTarefas();
+        }
 
         Platform.runLater(() -> {
-
             Stage stage = (Stage) title.getScene().getWindow();
 
             stage.widthProperty().addListener((o, oldVal, newVal) -> {
                 title.setStyle("-fx-font-size: " + (newVal.doubleValue() / 25) + "px;");
             });
-
         });
 
     }
 
-    public void adicionarTarefa(String dia, String nome, String hora, String tipo) {
-
-        Tarefa tarefa = new Tarefa();
-
-        avl.insert(tarefa);
-
-        atualizarTela();
-    }
-
-    private void atualizarTela() {
+    private void renderizarLista(Collection<Tarefa> tarefas) {
         taskList.getChildren().clear();
+
+        // Garante ordenação independente da estrutura
+        List<Tarefa> listaOrdenada = new ArrayList<>(tarefas);
+        listaOrdenada.sort(Comparator.comparing(Tarefa::getDeadline));
 
         String ultimaData = "";
 
-        for (Tarefa t : avl.inOrder()) {
+        for (Tarefa t : listaOrdenada) {
 
-            // cabeçalho
             String dataTarefa = t.getDeadline().toLocalDate().toString();
 
             if (!dataTarefa.equals(ultimaData)) {
@@ -89,57 +96,62 @@ public class TelaInicioController {
                 ultimaData = dataTarefa;
             }
 
-            // título da Tarefa
             CheckBox check = new CheckBox(t.getTitle());
             check.setStyle("-fx-font-weight:bold; -fx-font-size:14;");
             check.setSelected(t.isCompleted());
 
-            check.setOnAction(e -> {
-                if (check.isSelected()) {
-                    t.markAsCompleted();
-                    atualizarTela();
-                }
-            });
-
-            // descrição, hora e categoria
             VBox infoContainer = new VBox(2);
             infoContainer.setStyle("-fx-padding: 0 0 10 30;");
 
-            // Descrição
             Label desc = new Label(t.getDescription());
             desc.setStyle("-fx-text-fill: #666666; -fx-font-style: italic;");
 
-            // Hora formatada
-            String hora = String.format("%02d:%02d", t.getDeadline().getHour(), t.getDeadline().getMinute());
+            String hora = String.format("%02d:%02d",
+                    t.getDeadline().getHour(),
+                    t.getDeadline().getMinute());
             Label dateTime = new Label("Horário: " + hora);
 
-            // Categoria
-            Label category = new Label("Categoria: " + t.getCategory());
-            category.setStyle("-fx-text-fill: #2d8cff; -fx-font-weight: bold; -fx-font-size: 11px;");
+            Label categoryLabel = new Label("Categoria: " + t.getCategory());
+            categoryLabel.setStyle("-fx-text-fill: #2d8cff; -fx-font-weight: bold; -fx-font-size: 11px;");
 
-            // Adiciona as informações no container
-            infoContainer.getChildren().addAll(desc, dateTime, category);
+            infoContainer.getChildren().addAll(desc, dateTime, categoryLabel);
             taskList.getChildren().addAll(check, infoContainer);
 
-            check.setOnAction(event -> {
+            check.setOnAction(e -> {
                 if (check.isSelected()) {
-                    // Remove a tarefa da AVL e atualiza
-                    avl.remove(t);
-                    atualizarTela();
+                    tarefaService.concluirTarefa(t);
+                    renderizarLista(todasTarefas.inOrder());
                 }
             });
         }
     }
 
     @FXML
+    private void mostrarTodasTarefas() {
+        renderizarLista(todasTarefas.inOrder());
+    }
+
+    @FXML
+    private void mostrarPorCategoria(ActionEvent event) {
+        MenuItem item = (MenuItem) event.getSource();
+
+        String nomeCategoria = item.getText();
+        Categoria categoria = Categoria.valueOf(nomeCategoria.toUpperCase());
+
+        List<Tarefa> filtradas = tarefaService.filtrarPorCategoria(categoria);
+
+        renderizarLista(filtradas);
+    }
+
+    @FXML
     private void abrirNovaTarefa(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        TrocaDeTela.carregar(stage, "/com/eda/gerenciadortarefas/view/nova-tarefa.fxml", 500, 400);
+        TrocaDeTela.carregar(stage, "/com/eda/gerenciadortarefas/view/nova-tarefa.fxml", 500, 400, tarefaService);
     }
 
     @FXML
     private void abrirConcluidos(ActionEvent event) {
         Stage stage = (Stage) btnConcluidos.getScene().getWindow();
-        TrocaDeTela.carregar(stage, "/com/eda/gerenciadortarefas/view/TelaConcluidos.fxml", 500, 400);
+        TrocaDeTela.carregar(stage, "/com/eda/gerenciadortarefas/view/TelaConcluidos.fxml", 500, 400, tarefaService);
     }
 }

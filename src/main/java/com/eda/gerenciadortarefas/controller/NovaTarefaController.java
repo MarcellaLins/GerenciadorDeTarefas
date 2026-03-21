@@ -1,5 +1,7 @@
 package com.eda.gerenciadortarefas.controller;
 
+import com.eda.gerenciadortarefas.service.TarefaService;
+import com.eda.gerenciadortarefas.utils.TaskService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,14 @@ import com.eda.gerenciadortarefas.controller.TelaInicioController;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class NovaTarefaController {
+public class NovaTarefaController implements TaskService {
+    private TarefaService tarefaService;
+
+    @Override
+    public void setService(TarefaService tarefaService){
+        this.tarefaService = tarefaService;
+    }
+
     @FXML
     private TextField tituloField;
 
@@ -34,6 +43,8 @@ public class NovaTarefaController {
 
     @FXML
     public void initialize() {
+
+        System.out.println(tarefaService);
 
         // --- MÁSCARA DE HORA ---
         horaField.textProperty().addListener((obs, antigo, novo) -> {
@@ -167,18 +178,27 @@ public class NovaTarefaController {
         Categoria categoria = Categoria.valueOf(categoriaStr.toUpperCase());
 
         // Agora o horario não é nulo, o erro vai sumir!
-        Tarefa nova = new Tarefa(title, description, categoria, dia.atTime(horario));
+        tarefaService.taskAdd(title, description, categoria, dia.atTime(horario));
 
-        // insere na AVL
-        TelaInicioController.getArvore().insert(nova);
-
-        System.out.println("Tarefa adicionada: " + nova);
+        System.out.println("Tarefa adicionada com sucesso!");
 
         // volta para tela inicial
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/eda/gerenciadortarefas/view/tela-inicio.fxml"));
+            loader.setControllerFactory(param -> {
+                try {
+                    Object controller = param.getDeclaredConstructor().newInstance();
 
+                    if (controller instanceof TaskService) {
+                        ((TaskService) controller).setService(tarefaService);
+                    }
+
+                    return controller;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
             Parent root = loader.load();
 
 
