@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class CompletedTasksController implements TaskServiceAware {
@@ -65,10 +66,9 @@ public class CompletedTasksController implements TaskServiceAware {
             Label description = new Label(task.getDescription());
             description.setStyle("-fx-text-fill: #666666; -fx-font-style: italic;");
 
-            String time = String.format("%02d:%02d",
-                    task.getDeadline().getHour(),
-                    task.getDeadline().getMinute());
-            Label dateTime = new Label("Horário: " + time);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            String dateTimeStr = task.getCompletedAt().format(formatter);
+            Label dateTime = new Label("Concluída em: " + dateTimeStr);
 
             Label categoryLabel = new Label("Categoria: " + task.getCategory());
             categoryLabel.setStyle("-fx-text-fill: #2d8cff; -fx-font-weight: bold; -fx-font-size: 11px;");
