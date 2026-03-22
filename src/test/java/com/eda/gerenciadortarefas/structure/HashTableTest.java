@@ -1,8 +1,7 @@
 package com.eda.gerenciadortarefas.structure;
 
-import com.eda.gerenciadortarefas.model.Categoria;
-import com.eda.gerenciadortarefas.structures.HashTable;
-import com.eda.gerenciadortarefas.model.Tarefa;
+import com.eda.gerenciadortarefas.model.Category;
+import com.eda.gerenciadortarefas.model.Task;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class HashTableTest {
 
     private HashTable<Integer> hashTable;
-    private HashTable<Tarefa> tarefaHashTable;
+    private HashTable<Task> tarefaHashTable;
 
     @BeforeEach
     void setUp() {
-        hashTable = new HashTable<>(6);
-        tarefaHashTable = new HashTable<>(6);
+        hashTable = new HashTable<>(6, key -> key);
+        tarefaHashTable = new HashTable<>(6, task -> task.getCategory().getCode());
     }
 
     @Test
@@ -140,33 +139,33 @@ class HashTableTest {
     @DisplayName("Should insert and find a task")
     void shouldInsertAndFindTask() {
 
-        Tarefa tarefa = new Tarefa(
+        Task task = new Task(
                 "Estudar ED",
                 "Revisar HashTable",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(2)
         );
 
-        tarefaHashTable.insert(tarefa);
+        tarefaHashTable.insert(task);
 
-        assertTrue(tarefaHashTable.search(tarefa));
+        assertTrue(tarefaHashTable.search(task));
     }
 
     @Test
     @DisplayName("Should handle collision between tasks of same category")
     void shouldHandleTaskCollision() {
 
-        Tarefa t1 = new Tarefa(
+        Task t1 = new Task(
                 "Estudar ED",
                 "Lista de exercícios",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(2)
         );
 
-        Tarefa t2 = new Tarefa(
+        Task t2 = new Task(
                 "Revisar provas antigas",
                 "Praticar BST",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(3)
         );
 
@@ -181,35 +180,35 @@ class HashTableTest {
     @DisplayName("Should remove a specific task")
     void shouldRemoveTask() {
 
-        Tarefa tarefa = new Tarefa(
+        Task task = new Task(
                 "Estudar Hash",
                 "Implementar testes",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(1)
         );
 
-        tarefaHashTable.insert(tarefa);
+        tarefaHashTable.insert(task);
 
-        tarefaHashTable.remove(tarefa);
+        tarefaHashTable.remove(task);
 
-        assertFalse(tarefaHashTable.search(tarefa));
+        assertFalse(tarefaHashTable.search(task));
     }
 
     @Test
     @DisplayName("Should remove one task without affecting another in same bucket")
     void shouldRemoveOneTaskFromCollision() {
 
-        Tarefa t1 = new Tarefa(
+        Task t1 = new Task(
                 "Estudar ED",
                 "Lista 1",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(2)
         );
 
-        Tarefa t2 = new Tarefa(
+        Task t2 = new Task(
                 "Estudar Grafos",
                 "Lista 2",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(3)
         );
 
@@ -226,14 +225,14 @@ class HashTableTest {
     @DisplayName("Should return false when task is not in the table")
     void shouldNotFindNonExistingTask() {
 
-        Tarefa tarefa = new Tarefa(
+        Task task = new Task(
                 "Treinar academia",
                 "Cardio",
-                Categoria.SAUDE,
+                Category.SAUDE,
                 LocalDateTime.now().plusDays(1)
         );
 
-        assertFalse(tarefaHashTable.search(tarefa));
+        assertFalse(tarefaHashTable.search(task));
     }
 
 

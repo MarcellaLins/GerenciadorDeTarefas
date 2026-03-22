@@ -1,4 +1,4 @@
-package com.eda.gerenciadortarefas.structures;
+package com.eda.gerenciadortarefas.structure;
 
 public class Stack<T extends Comparable<T>> implements IfStack<T> {
 

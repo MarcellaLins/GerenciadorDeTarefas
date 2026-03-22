@@ -1,7 +1,5 @@
 package com.eda.gerenciadortarefas.structure;
 
-import com.eda.gerenciadortarefas.structures.AVL;
-import com.eda.gerenciadortarefas.structures.AVLNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

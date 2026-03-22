@@ -1,4 +1,4 @@
-package com.eda.gerenciadortarefas.structures;
+package com.eda.gerenciadortarefas.structure;
 
 public class AVLNode<T extends Comparable<T>> {
     private T data;

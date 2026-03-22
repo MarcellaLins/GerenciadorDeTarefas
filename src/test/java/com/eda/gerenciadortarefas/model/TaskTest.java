@@ -1,8 +1,5 @@
 package com.eda.gerenciadortarefas.model;
 
-import com.eda.gerenciadortarefas.model.Tarefa;
-import com.eda.gerenciadortarefas.model.Categoria;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +7,16 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TarefaTest {
+class TaskTest {
 
-    private Tarefa tarefa;
+    private Task task;
 
     @BeforeEach
     void setUp() {
-        tarefa = new Tarefa(
+        task = new Task(
                 "Estudar",
                 "Revisar BST",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(1)
         );
     }
@@ -27,43 +24,43 @@ class TarefaTest {
     @Test
     void deveCriarTarefaComValoresCorretos() {
 
-        assertEquals("Estudar", tarefa.getTitle());
-        assertEquals("Revisar BST", tarefa.getDescription());
-        assertEquals(Categoria.ESTUDOS, tarefa.getCategory());
-        assertFalse(tarefa.isCompleted());
-        assertNotNull(tarefa.getCreationDate());
+        assertEquals("Estudar", task.getTitle());
+        assertEquals("Revisar BST", task.getDescription());
+        assertEquals(Category.ESTUDOS, task.getCategory());
+        assertFalse(task.isCompleted());
+        assertNotNull(task.getCreationDate());
     }
 
     @Test
     void deveMarcarTarefaComoConcluida() {
 
-        tarefa.markAsCompleted();
+        task.markAsCompleted();
 
-        assertTrue(tarefa.isCompleted());
+        assertTrue(task.isCompleted());
     }
 
     @Test
     void deveMarcarTarefaComoPendente() {
 
-        tarefa.markAsCompleted();
-        tarefa.markAsPending();
+        task.markAsCompleted();
+        task.markAsPending();
 
-        assertFalse(tarefa.isCompleted());
+        assertFalse(task.isCompleted());
     }
 
     @Test
     void tarefaFuturaNaoDeveEstarAtrasada() {
 
-        assertFalse(tarefa.isOverdue());
+        assertFalse(task.isOverdue());
     }
 
     @Test
     void deveIdentificarTarefaAtrasada() {
 
-        Tarefa atrasada = new Tarefa(
+        Task atrasada = new Task(
                 "Entrega",
                 "Projeto",
-                Categoria.TRABALHO,
+                Category.TRABALHO,
                 LocalDateTime.now().minusDays(1)
         );
 
@@ -73,10 +70,10 @@ class TarefaTest {
     @Test
     void tarefaConcluidaNaoDeveSerAtrasada() {
 
-        Tarefa atrasada = new Tarefa(
+        Task atrasada = new Task(
                 "Entrega",
                 "Projeto",
-                Categoria.TRABALHO,
+                Category.TRABALHO,
                 LocalDateTime.now().minusDays(1)
         );
 
@@ -88,30 +85,30 @@ class TarefaTest {
     @Test
     void tarefasComIdsDiferentesNaoSaoIguais() {
 
-        Tarefa outra = new Tarefa(
+        Task outra = new Task(
                 "Estudar",
                 "Revisar",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now()
         );
 
-        assertNotEquals(tarefa, outra);
+        assertNotEquals(task, outra);
     }
 
     @Test
     void tarefaComPrazoMaisProximoDeveVirPrimeiro() {
 
-        Tarefa t1 = new Tarefa(
+        Task t1 = new Task(
                 "A",
                 "desc",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(1)
         );
 
-        Tarefa t2 = new Tarefa(
+        Task t2 = new Task(
                 "B",
                 "desc",
-                Categoria.ESTUDOS,
+                Category.ESTUDOS,
                 LocalDateTime.now().plusDays(5)
         );
 
@@ -121,8 +118,8 @@ class TarefaTest {
     @Test
     void hashCodeDeveSerConsistente() {
 
-        int hash1 = tarefa.hashCode();
-        int hash2 = tarefa.hashCode();
+        int hash1 = task.hashCode();
+        int hash2 = task.hashCode();
 
         assertEquals(hash1, hash2);
     }
@@ -130,7 +127,7 @@ class TarefaTest {
     @Test
     void toStringDeveConterInformacoesDaTarefa() {
 
-        String texto = tarefa.toString();
+        String texto = task.toString();
 
         assertTrue(texto.contains("Estudar"));
         assertTrue(texto.contains("Revisar BST"));

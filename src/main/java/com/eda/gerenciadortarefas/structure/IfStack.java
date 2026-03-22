@@ -1,4 +1,4 @@
-package com.eda.gerenciadortarefas.structures;
+package com.eda.gerenciadortarefas.structure;
 
 public interface IfStack<T> {
     void push(T value);

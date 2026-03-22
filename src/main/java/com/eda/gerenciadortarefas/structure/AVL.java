@@ -1,4 +1,4 @@
-package com.eda.gerenciadortarefas.structures;
+package com.eda.gerenciadortarefas.structure;
 
 import java.util.ArrayList;
 import java.util.List;

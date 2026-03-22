@@ -2,20 +2,22 @@ package com.eda.gerenciadortarefas.model;
 
 import java.time.LocalDateTime;
 
-public class Tarefa implements Comparable<Tarefa> {
+public class Task implements Comparable<Task> {
 
-    private static int contadorID = 1;
+    // geração de ID
+    private static int counterID = 1;
 
     private final int id;
     private String title;
     private String description;
-    private Categoria category;
+    private Category category;
     private LocalDateTime creationDate;
     private LocalDateTime deadline;
     private boolean completed;
+    private LocalDateTime completedAt;
 
-    public Tarefa(String title, String description, Categoria category, LocalDateTime deadline) {
-        this.id = contadorID++;
+    public Task(String title, String description, Category category, LocalDateTime deadline) {
+        this.id = counterID++;
         this.title = title;
         this.description = description;
         this.category = category;
@@ -24,38 +26,32 @@ public class Tarefa implements Comparable<Tarefa> {
         this.completed = false;
     }
 
-    // ISSO É ÚTIL, ACREDITE
-    public Tarefa() {
-        this.id = contadorID++;
+    // indica se a tarefa tá concluída
+    public boolean isCompleted() {
+        return completed;
     }
 
-    // TALVEZ SEJA ALTERADO
-
-    // se está concluída (true) ou pendente (false)
-    public boolean isCompleted(){ return completed;}
-
-    public void markAsCompleted(){
+    // marca a tarefa como concluída
+    public void markAsCompleted() {
         this.completed = true;
+        completedAt = LocalDateTime.now();
     }
 
-    public void markAsPending(){
+    // reverte a tarefa para pendente, vamos usar? talvez não
+    public void markAsPending() {
         this.completed = false;
     }
 
-    /*
-      Se está atrasada:
-        pendente e com data anterior a data atual.
-
-      OBS.: se data não definida (null), não se atrasa.
-    */
-
-    public boolean isOverdue(){
-        return !completed && deadline != null && deadline.isBefore(LocalDateTime.now());
+    // uma tarefa está atrasada se: não foi concluíd, tem prazo definido, o prazo já passou
+    public boolean isOverdue() {
+        return !completed &&
+                deadline != null &&
+                deadline.isBefore(LocalDateTime.now());
     }
 
-    //GETTERS E SETTERS
+    // Getters e Setters
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
@@ -91,15 +87,19 @@ public class Tarefa implements Comparable<Tarefa> {
         this.deadline = deadline;
     }
 
-    public Categoria getCategory() {
+    public LocalDateTime getCompletedAt(){
+        return completedAt;
+    }
+
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Categoria category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    // TO STRING
+    // representação texto. Deve ser útil para debug
     @Override
     public String toString() {
         return "ID: " + id +
@@ -111,9 +111,14 @@ public class Tarefa implements Comparable<Tarefa> {
                 "\nConcluída: " + completed;
     }
 
-    // COMPARE TO
+    /* critpério de ordenação:
+        1. por prazo (mais próximo primeiro)
+        2. tarefas sem prazo vão para o final
+        3. desempate por ID
+     */
+
     @Override
-    public int compareTo(Tarefa other) {
+    public int compareTo(Task other) {
 
         if (this.deadline == null && other.deadline == null) {
             return Integer.compare(this.id, other.id);
@@ -136,27 +141,16 @@ public class Tarefa implements Comparable<Tarefa> {
         return Integer.compare(this.id, other.id);
     }
 
-    // EQUALS
+    // diferenciar um objeto de outro
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
+        if (this == obj) return true;
 
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
+        if (obj == null || getClass() != obj.getClass()) return false;
 
-        Tarefa other = (Tarefa) obj;
+        Task other = (Task) obj;
 
         return this.id == other.id;
     }
-
-    // HASH CODE
-    public int hashCode(){
-        return category.getCodigo();
-    }
-
 }
-
