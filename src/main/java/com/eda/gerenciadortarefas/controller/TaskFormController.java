@@ -96,6 +96,8 @@ public class TaskFormController implements TaskServiceAware {
 
         String time = timeField.getText();
 
+        LocalTime parsedTime;
+
         try {
             String[] parts = time.split(":");
 
@@ -117,8 +119,17 @@ public class TaskFormController implements TaskServiceAware {
                 return false;
             }
 
+            parsedTime = LocalTime.of(hour, minute);
+
         } catch (Exception e) {
             showError("Horário inválido");
+            return false;
+        }
+
+        LocalDate selectedDate = datePicker.getValue();
+
+        if (selectedDate.atTime(parsedTime).isBefore(java.time.LocalDateTime.now())) {
+            showError("Não é permitido criar tarefas com prazo no passado");
             return false;
         }
 
