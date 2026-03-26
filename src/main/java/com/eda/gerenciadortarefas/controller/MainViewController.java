@@ -93,14 +93,9 @@ public class MainViewController implements TaskServiceAware {
 
         taskList.getChildren().clear();
 
-        // MUDAR DEPOIS PARA HEAPSORT
-        // garante ordenação independente da estrutura original
-        List<Task> sortedList = new ArrayList<>(tasks);
-        sortedList.sort(Comparator.comparing(Task::getDeadline));
-
         String lastDate = "";
 
-        for (Task task : sortedList) {
+        for (Task task : tasks) {
 
             String taskDate = task.getDeadline().toLocalDate().toString();
 
@@ -194,9 +189,10 @@ public class MainViewController implements TaskServiceAware {
         String categoryName = item.getText();
         currentCategory = Category.valueOf(categoryName.toUpperCase());
 
-        List<Task> filtered = taskService.filtrarPorCategoria(currentCategory);
+        ArrayList<Task> filtered = taskService.filtrarPorCategoria(currentCategory);
+        ArrayList<Task> ordered = taskService.ordenarPorPrazo(filtered);
 
-        renderTaskList(filtered);
+        renderTaskList(ordered);
     }
 
     // abre tela de criação de nova tarefa

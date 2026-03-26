@@ -6,6 +6,7 @@ import com.eda.gerenciadortarefas.structure.AVL;
 import com.eda.gerenciadortarefas.structure.HashTable;
 import com.eda.gerenciadortarefas.structure.Queue;
 import com.eda.gerenciadortarefas.structure.SingleLinkedList;
+import com.eda.gerenciadortarefas.structure.HeapSort;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class TaskService {
     private AVL<Task> todasTarefas;
     private Queue<Task> tarefasConcluidas;
     private HashTable<Task> tabelaCategoria;
+    private HeapSort ordenadorDePrazo;
 
     private static final int LIMITE_DE_APRESENTACAO = 5;
     private static final int NUMERO_DE_CATEGORIAS = 6;
@@ -23,6 +25,7 @@ public class TaskService {
         this.tarefasConcluidas = new Queue<>();
         this.tabelaCategoria = new HashTable<>(NUMERO_DE_CATEGORIAS, task -> task.getCategory().getCode());
         this.todasTarefas = new AVL<>();
+        this.ordenadorDePrazo = new HeapSort();
     }
 
     public void taskAdd(String title, String description, Category category, LocalDateTime deadline){
@@ -67,22 +70,17 @@ public class TaskService {
         return snapshot;
     }
 
-    public List<Task> filtrarPorCategoria (Category category){
+    public ArrayList<Task> filtrarPorCategoria (Category category){
         int index = category.getCode();
 
         SingleLinkedList<Task> lista = tabelaCategoria.getBucket(index);
-
-        List<Task> resultado = new ArrayList<>();
-
-        for(Task t: lista){
-            resultado.add(t);
-        }
+        ArrayList<Task> resultado = lista.toArrayList();
 
         return resultado;
     }
 
-    public List<Task> ordenarPorPrazo(List<Task> tasks){
-        //TODO: implementar lógica
-        throw new UnsupportedOperationException("Ainda não implementado");
+    public ArrayList<Task> ordenarPorPrazo(ArrayList<Task> tasks){
+        HeapSort.sort(tasks);
+        return tasks;
     }
 }

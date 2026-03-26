@@ -1,5 +1,6 @@
 package com.eda.gerenciadortarefas.structure;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class SingleLinkedList <T> implements Iterable<T>{
@@ -148,5 +149,18 @@ public class SingleLinkedList <T> implements Iterable<T>{
                 return data;
             }
         };
+    }
+
+    public ArrayList<T> toArrayList(){
+        ArrayList<T> list = new ArrayList<>(size);
+
+        Node<T> current = head;
+
+        while(current != null){
+            list.add(current.data);
+            current = current.next;
+        }
+
+        return list;
     }
 }
