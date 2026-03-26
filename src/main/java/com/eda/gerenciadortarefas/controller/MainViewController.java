@@ -7,6 +7,9 @@ import com.eda.gerenciadortarefas.structure.AVL;
 import com.eda.gerenciadortarefas.utils.TaskServiceAware;
 import com.eda.gerenciadortarefas.utils.ScreenLoader;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -63,6 +67,12 @@ public class MainViewController implements TaskServiceAware {
         // lista limpa ao iniciar
         taskList.getChildren().clear();
 
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(30), e -> refreshUI())
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
         // caso o service já tenha sido injetado antes do initialize
         if (taskService != null) {
             showAllTasks();
@@ -105,6 +115,15 @@ public class MainViewController implements TaskServiceAware {
             // checkbox principal (título da tarefa)
             CheckBox checkBox = new CheckBox(task.getTitle());
             checkBox.setStyle("-fx-font-weight:bold; -fx-font-size:14;");
+
+            if (task.isOverdue() && !task.isCompleted()) {
+                checkBox.setStyle(
+                        "-fx-font-weight:bold; " +
+                                "-fx-font-size:14; " +
+                                "-fx-text-fill: red;"
+                );
+            }
+
             checkBox.setSelected(task.isCompleted());
 
             // container com informações adicionais
@@ -112,7 +131,14 @@ public class MainViewController implements TaskServiceAware {
             infoContainer.setStyle("-fx-padding: 0 0 10 30;");
 
             Label description = new Label(task.getDescription());
-            description.setStyle("-fx-text-fill: #666666; -fx-font-style: italic;");
+            //description.setStyle("-fx-text-fill: #666666; -fx-font-style: italic;");
+
+            description.setStyle(
+                    task.isOverdue() && !task.isCompleted()
+                            ? "-fx-text-fill: #ff4d4d; -fx-font-style: italic;"
+                            : "-fx-text-fill: #666666; -fx-font-style: italic;"
+            );
+
 
             String time = String.format("%02d:%02d",
                     task.getDeadline().getHour(),
@@ -140,6 +166,15 @@ public class MainViewController implements TaskServiceAware {
                     }
                 }
             });
+        }
+    }
+
+    private void refreshUI() {
+        if (currentCategory != null) {
+            List<Task> filtered = taskService.filtrarPorCategoria(currentCategory);
+            renderTaskList(filtered);
+        } else {
+            renderTaskList(allTasks.inOrder());
         }
     }
 
