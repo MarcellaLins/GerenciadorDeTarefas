@@ -26,6 +26,7 @@ class HashTableTest {
     @DisplayName("Should insert an element and allow it to be found")
     void shouldInsertElementIntoHashTable() {
 
+        // testa inserção e busca de elemento
         hashTable.insert(10);
 
         boolean found = hashTable.search(10);
@@ -34,20 +35,10 @@ class HashTableTest {
     }
 
     @Test
-    @DisplayName("Should return true when searching for an existing element")
-    void shouldFindExistingElement() {
-
-        hashTable.insert(10);
-
-        boolean result = hashTable.search(10);
-
-        assertTrue(result);
-    }
-
-    @Test
     @DisplayName("Should return false when searching for a non-existing element")
     void shouldReturnFalseWhenElementDoesNotExist() {
 
+        // testa busca de elemento inexistente
         boolean found = hashTable.search(99);
 
         assertFalse(found);
@@ -57,17 +48,20 @@ class HashTableTest {
     @DisplayName("Should remove an existing element from the hash table")
     void shouldRemoveExistingElement() {
 
+        // testa remoção de elemento existente
         hashTable.insert(30);
 
         boolean removed = hashTable.remove(30);
 
         assertTrue(removed);
+        assertFalse(hashTable.search(30));
     }
 
     @Test
     @DisplayName("Should include inserted element in the string representation")
     void shouldContainElementInStringRepresentation() {
 
+        // testa se elemento aparece no toString
         hashTable.insert(5);
 
         String result = hashTable.toString();
@@ -79,8 +73,9 @@ class HashTableTest {
     @DisplayName("Should handle collision and still find both elements")
     void shouldHandleCollision() {
 
+        // testa tratamento de colisão
         hashTable.insert(1);
-        hashTable.insert(7); // mesma posição se capacity = 6
+        hashTable.insert(7);
 
         assertTrue(hashTable.search(1));
         assertTrue(hashTable.search(7));
@@ -90,6 +85,7 @@ class HashTableTest {
     @DisplayName("Should remove element from collision chain without affecting others")
     void shouldRemoveElementFromCollisionChain() {
 
+        // testa remoção em lista de colisão
         hashTable.insert(1);
         hashTable.insert(7);
 
@@ -103,6 +99,7 @@ class HashTableTest {
     @DisplayName("Should return false when removing non-existing element")
     void shouldReturnFalseWhenRemovingNonExistingElement() {
 
+        // testa remoção de elemento inexistente
         boolean removed = hashTable.remove(100);
 
         assertFalse(removed);
@@ -112,6 +109,7 @@ class HashTableTest {
     @DisplayName("Should handle multiple insertions")
     void shouldHandleMultipleInsertions() {
 
+        // testa múltiplas inserções
         hashTable.insert(1);
         hashTable.insert(2);
         hashTable.insert(3);
@@ -126,19 +124,25 @@ class HashTableTest {
     }
 
     @Test
-    @DisplayName("Should allow duplicate insertions")
-    void shouldAllowDuplicateInsertions() {
+    @DisplayName("Should allow duplicate insertions and keep at least one after removal")
+    void shouldHandleDuplicateInsertions() {
 
+        // testa inserção de duplicados
         hashTable.insert(10);
         hashTable.insert(10);
+
+        hashTable.remove(10);
 
         assertTrue(hashTable.search(10));
     }
+
+    // TESTES COM TASK
 
     @Test
     @DisplayName("Should insert and find a task")
     void shouldInsertAndFindTask() {
 
+        // testa inserção e busca de tarefa
         Task task = new Task(
                 "Estudar ED",
                 "Revisar HashTable",
@@ -155,6 +159,7 @@ class HashTableTest {
     @DisplayName("Should handle collision between tasks of same category")
     void shouldHandleTaskCollision() {
 
+        // testa colisão entre tarefas
         Task t1 = new Task(
                 "Estudar ED",
                 "Lista de exercícios",
@@ -180,6 +185,7 @@ class HashTableTest {
     @DisplayName("Should remove a specific task")
     void shouldRemoveTask() {
 
+        // testa remoção de tarefa
         Task task = new Task(
                 "Estudar Hash",
                 "Implementar testes",
@@ -198,6 +204,7 @@ class HashTableTest {
     @DisplayName("Should remove one task without affecting another in same bucket")
     void shouldRemoveOneTaskFromCollision() {
 
+        // testa remoção em colisão de tarefas
         Task t1 = new Task(
                 "Estudar ED",
                 "Lista 1",
@@ -225,6 +232,7 @@ class HashTableTest {
     @DisplayName("Should return false when task is not in the table")
     void shouldNotFindNonExistingTask() {
 
+        // testa busca de tarefa inexistente
         Task task = new Task(
                 "Treinar academia",
                 "Cardio",
@@ -234,7 +242,4 @@ class HashTableTest {
 
         assertFalse(tarefaHashTable.search(task));
     }
-
-
-
 }

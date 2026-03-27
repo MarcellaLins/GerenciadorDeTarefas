@@ -28,10 +28,7 @@ public class HashTable<T> {
 
     public void insert(T key) {
         int index = hash(key);
-
-        if (!table[index].search(key)) {
-            table[index].addFirst(key);
-        }
+        table[index].addFirst(key);
     }
 
     public boolean search(T key) {
