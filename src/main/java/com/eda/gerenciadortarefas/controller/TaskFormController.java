@@ -4,7 +4,6 @@ import com.eda.gerenciadortarefas.model.Category;
 import com.eda.gerenciadortarefas.service.TaskService;
 import com.eda.gerenciadortarefas.utils.ScreenLoader;
 import com.eda.gerenciadortarefas.utils.TaskServiceAware;
-import com.eda.gerenciadortarefas.utils.ScreenLoader;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -79,10 +78,12 @@ public class TaskFormController implements TaskServiceAware {
             return false;
         }
 
+        /*
         if (descriptionField.getText().isEmpty()) {
             showError("Digite a descrição da tarefa");
             return false;
         }
+         */
 
         if (datePicker.getValue() == null) {
             showError("Selecione o dia");
@@ -168,7 +169,7 @@ public class TaskFormController implements TaskServiceAware {
 
         Category category = Category.valueOf(categoryStr.toUpperCase());
 
-        taskService.taskAdd(title, description, category, date.atTime(time));
+        taskService.addTask(title, description, category, date.atTime(time));
 
         // navegação de volta (reutilizando util existente)
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

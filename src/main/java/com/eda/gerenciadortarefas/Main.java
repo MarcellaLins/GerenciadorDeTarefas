@@ -59,7 +59,7 @@ public class Main extends Application {
             // configuração da cena
             Scene scene = new Scene(root, 600, 480);
 
-            primaryStage.setTitle("Task Manage");
+            primaryStage.setTitle("Gerenciador de Tarefas");
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.show();

@@ -13,74 +13,86 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskService {
-    private AVL<Task> todasTarefas;
-    private Queue<Task> tarefasConcluidas;
-    private HashTable<Task> tabelaCategoria;
-    private HeapSort ordenadorDePrazo;
 
-    private static final int LIMITE_DE_APRESENTACAO = 5;
-    private static final int NUMERO_DE_CATEGORIAS = 6;
+    // Armazena todas as tarefas ativas em uma árvore AVL (ordenadas)
+    private AVL<Task> allTasks;
 
-    public TaskService(){
-        this.tarefasConcluidas = new Queue<>();
-        this.tabelaCategoria = new HashTable<>(NUMERO_DE_CATEGORIAS, task -> task.getCategory().getCode());
-        this.todasTarefas = new AVL<>();
-        this.ordenadorDePrazo = new HeapSort();
+    // Fila que guarda as últimas tarefas concluídas
+    private Queue<Task> completedTasks;
+
+    // Tabela hash para organizar tarefas por categoria
+    private HashTable<Task> categoryTable;
+
+    // Constantes de controle
+    private static final int DISPLAY_LIMIT = 5;
+    private static final int CATEGORY_COUNT = 6;
+
+    public TaskService() {
+        this.completedTasks = new Queue<>();
+        this.categoryTable = new HashTable<>(CATEGORY_COUNT, task -> task.getCategory().getCode());
+        this.allTasks = new AVL<>();
     }
 
-    public void taskAdd(String title, String description, Category category, LocalDateTime deadline){
-        Task novaTask = new Task(title, description, category, deadline);
-        todasTarefas.insert(novaTask);
-        tabelaCategoria.insert(novaTask);
+    // Adiciona uma nova tarefa nas estruturas principais
+    public void addTask(String title, String description, Category category, LocalDateTime deadline) {
+        Task newTask = new Task(title, description, category, deadline);
+        allTasks.insert(newTask);
+        categoryTable.insert(newTask);
     }
 
-    public AVL<Task> getTodasTarefas(){
-        return todasTarefas;
+    // Retorna todas as tarefas ativas (estrutura AVL)
+    public AVL<Task> getAllTasks() {
+        return allTasks;
     }
 
-    public void concluirTarefa(Task task){
+    // Marca uma tarefa como concluída e move para a fila de concluídas
+    public void completeTask(Task task) {
         task.markAsCompleted();
-        todasTarefas.remove(task);
-        tabelaCategoria.remove(task);
 
-        if(tarefasConcluidas.size() == LIMITE_DE_APRESENTACAO){
-            tarefasConcluidas.dequeue(); // remove a mais antiga
+        // Remove das estruturas de tarefas ativas
+        allTasks.remove(task);
+        categoryTable.remove(task);
+
+        // Mantém o limite da fila (remove a mais antiga)
+        if (completedTasks.size() == DISPLAY_LIMIT) {
+            completedTasks.dequeue();
         }
 
-        tarefasConcluidas.enqueue(task);
+        completedTasks.enqueue(task);
     }
 
+    // Retorna uma cópia das tarefas concluídas sem perder os dados da fila original
     public List<Task> getCompletedTasksSnapshot() {
         Queue<Task> tempQueue = new Queue<>();
-        Queue<Task> original = tarefasConcluidas; // sua fila original
+        Queue<Task> originalQueue = completedTasks;
         List<Task> snapshot = new ArrayList<>();
 
-        // copia elementos para a fila temporária e adiciona à lista
-        while (!original.isEmpty()) {
-            Task t = original.dequeue();
-            snapshot.add(t);
-            tempQueue.enqueue(t);
+        // Copia os elementos para lista e fila temporária
+        while (!originalQueue.isEmpty()) {
+            Task task = originalQueue.dequeue();
+            snapshot.add(task);
+            tempQueue.enqueue(task);
         }
 
-        // restaura a fila original
+        // Restaura a fila original
         while (!tempQueue.isEmpty()) {
-            original.enqueue(tempQueue.dequeue());
+            originalQueue.enqueue(tempQueue.dequeue());
         }
 
         return snapshot;
     }
 
-    public ArrayList<Task> filtrarPorCategoria (Category category){
+    // filtra tarefas por categoria usando a tabela hash
+    public ArrayList<Task> filterByCategory(Category category) {
         int index = category.getCode();
 
-        SingleLinkedList<Task> lista = tabelaCategoria.getBucket(index);
-        ArrayList<Task> resultado = lista.toArrayList();
-
-        return resultado;
+        SingleLinkedList<Task> list = categoryTable.getBucket(index);
+        return list.toArrayList();
     }
 
-    public ArrayList<Task> ordenarPorPrazo(ArrayList<Task> tasks){
-        HeapSort.sort(tasks);
+    // ordena tarefas pelo prazo usando HeapSort
+    public ArrayList<Task> sortByDeadline(ArrayList<Task> tasks) {
+        HeapSort.sort((ArrayList<Task>) tasks);
         return tasks;
     }
 }

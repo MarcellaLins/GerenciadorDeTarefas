@@ -8,7 +8,7 @@ public class HashTable<T> {
     // função de hash definida externamente
     private HashFunction<T> hashFunction;
 
-    // Array de listas encadeadas para colisões
+    // array de listas encadeadas para colisões
     private SingleLinkedList<T>[] table;
 
     public HashTable(int capacity, HashFunction<T> hashFunction) {

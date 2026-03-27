@@ -42,9 +42,9 @@ public class MainViewController implements TaskServiceAware {
     @Override
     public void setTaskService(TaskService taskService) {
         this.taskService = taskService;
-        this.allTasks = taskService.getTodasTarefas();
+        this.allTasks = taskService.getAllTasks();
 
-        // Se a tela já estiver pronta, renderiza imediatamente
+        // se a tela já estiver pronta, renderiza imediatamente
         if (initialized) {
             showAllTasks();
         }
@@ -150,11 +150,11 @@ public class MainViewController implements TaskServiceAware {
             // ação ao marcar como concluída
             checkBox.setOnAction(e -> {
                 if (checkBox.isSelected()) {
-                    taskService.concluirTarefa(task);
+                    taskService.completeTask(task);
 
                     // Re-renderiza respeitando o filtro atual
                     if (currentCategory != null) {
-                        List<Task> filtered = taskService.filtrarPorCategoria(currentCategory);
+                        List<Task> filtered = taskService.filterByCategory(currentCategory);
                         renderTaskList(filtered);
                     } else {
                         renderTaskList(allTasks.inOrder());
@@ -166,7 +166,7 @@ public class MainViewController implements TaskServiceAware {
 
     private void refreshUI() {
         if (currentCategory != null) {
-            List<Task> filtered = taskService.filtrarPorCategoria(currentCategory);
+            List<Task> filtered = taskService.filterByCategory(currentCategory);
             renderTaskList(filtered);
         } else {
             renderTaskList(allTasks.inOrder());
@@ -189,8 +189,8 @@ public class MainViewController implements TaskServiceAware {
         String categoryName = item.getText();
         currentCategory = Category.valueOf(categoryName.toUpperCase());
 
-        ArrayList<Task> filtered = taskService.filtrarPorCategoria(currentCategory);
-        ArrayList<Task> ordered = taskService.ordenarPorPrazo(filtered);
+        ArrayList<Task> filtered = taskService.filterByCategory(currentCategory);
+        ArrayList<Task> ordered = taskService.sortByDeadline(filtered);
 
         renderTaskList(ordered);
     }
